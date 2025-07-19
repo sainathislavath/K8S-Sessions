@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "flask-chart.fullname" . }}
+  labels:
+    {{- include "flask-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.container.name }}
+        image: {{ .Values.imageRepo.repository }}:{{ .Values.imageRepo.tag }}
+        imagePullPolicy: {{ .Values.imageRepo.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        env:
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: APP_ENV
+        - name: APP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: flask-secret
+              key: APP_PASSWORD

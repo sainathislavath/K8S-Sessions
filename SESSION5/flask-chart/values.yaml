@@ -1,0 +1,22 @@
+replicaCount: 2
+imageRepo:
+  repository: sainathislavath/practice
+  tag: flask
+  pullPolicy: IfNotPresent
+
+appName: flask
+
+container:
+  name: flask-container
+  port: 5000
+
+service:
+  type: NodePort
+  port: 5000
+  nodePort: 30090
+
+secret:
+  APP_PASSWORD: c2FpbmF0aHNlY3JldHBhc3N3b3Jk
+
+configMap: 
+  APP_ENV: "sainath is a simple boy"

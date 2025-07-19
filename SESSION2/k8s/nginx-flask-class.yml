@@ -1,0 +1,6 @@
+apiVersion: networking.k8s.io/v1
+kind: ingressClass
+metadata:
+  name: nginx-flask
+spec:
+  controller: k8s.io/ingress-nginx
